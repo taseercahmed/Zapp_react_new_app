@@ -1,85 +1,51 @@
-import * as React from 'react';
+import React,{useEffect,useState} from 'react'
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-const images = [
-  {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-      'https://media.gettyimages.com/id/453478853/photo/blue-striped-and-white-shirts.jpg?s=1024x1024&w=gi&k=20&c=koaWXXOPFGrozwCJSRJFWMuFdqwsRccrPKGOee9LBrY=',
-  },
-  {
-    label: 'Bird',
-    imgPath:
-      'https://media.gettyimages.com/id/89232014/photo/clothesline-with-pegs-and-basket.jpg?s=612x612&w=gi&k=20&c=UVeHOC_ST9U18QGAp47FUd3b6QL5H4tlWRhcsZZB12k=',
-  },
-  {
-    label: 'Bali, Indonesia',
-    imgPath:
-      'https://media.gettyimages.com/id/609217975/photo/colorful-pie-charts.jpg?s=612x612&w=gi&k=20&c=doWnKZpuO4KurdNE8JxNDKF4D8pfKd11nSU9h1DlZws=',
-  },
-  
-  {
-    label: 'Goč, Serbia',
-    imgPath:
-      'https://media.gettyimages.com/id/609217963/photo/colorful-pie-charts.jpg?s=612x612&w=0&k=20&c=i0ejdNfU6eNKMlLsTj1OMZsnGy50zjvGq41M81k9P3A=',
-  },
-];
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function SwipeableTextMobileStepper() {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = images.length;
+  const [timeslot, setTimeSlot] = useState("Volvo");
+  const [open, setOpen] = React.useState(false);
+  const [age, setAge] = React.useState('');
+  const [isActive, setIsActive] = useState(false);
+  const [selected, setIsSelected] = useState("Choose one");
+  function handleBlur(e) {
+    console.log(e);
+  }
+  useEffect(()=>{
+          console.log("djhkajsjsajsadajssajk")
+  },[])
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const handleChange = (event) => {
+    setAge(Number(event.target.value) || '');
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const handleClickOpen = (event) => {
+    setOpen(true);
   };
 
-  const handleStepChange = (step) => {
-    setActiveStep(step);
+  const handleClose = (event) => {
+   // if (reason !== 'backdropClick') {
+      setOpen(false);
+  //  }
   };
-
   return (
     <Box sx={{  flexGrow: 1 }}>
-      {/* <AutoPlaySwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 455,
-                  display: 'block',
-                  
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
-          </div>
-        ))}
-      </AutoPlaySwipeableViews> */}
+    
       <div className="neworderservicesarea ">
                 <div className="mdn-header__container">
                     <h1 className="mdn-header__title">DRY CLEANING & LAUNDRY EXPERTS</h1>
@@ -99,8 +65,55 @@ function SwipeableTextMobileStepper() {
                     <span className="material-icons-outlined"></span>
                     <input type="text" className="in-put" placeholder="POSTCODE" id="firstinput" required/>
                  
-                    <input type="text" className="in-put" placeholder="TIME SLOTS" id="secondinput"
-                     onClick="firstinp()" required/>
+                    <input  className="in-put" placeholder="TIME SLOTS" id="secondinput" 
+                    onClick={handleClickOpen}  required>
+                     </input>
+                     <div className="dropdown">
+        <div
+          onClick={(e) => {
+            setIsActive(!isActive);
+          }}
+          className="dropdown-btn"
+        >
+          {selected}
+          <span
+            className={isActive ? "fas fa-caret-up" : "fas fa-caret-down"}
+          />
+        </div>
+        <div
+          className="dropdown-content"
+          style={{ display: isActive ? "block" : "none" }}
+        >
+          <div
+            onClick={(e) => {
+              setIsSelected(e.target.textContent);
+              setIsActive(!isActive);
+            }}
+            className="item"
+          >
+            One
+          </div>
+          <div
+            className="item"
+            onClick={(e) => {
+              setIsSelected(e.target.textContent);
+              setIsActive(!isActive);
+            }}
+          >
+            Two
+          </div>
+          <div
+            className="item"
+            onClick={(e) => {
+              setIsSelected(e.target.textContent);
+              setIsActive(!isActive);
+            }}
+          >
+            Three
+          </div>
+        </div>
+      </div>
+    
                     <input type="submit" value="PLACE ORDER" className="in-put bgplaceorder" />
 
                    
