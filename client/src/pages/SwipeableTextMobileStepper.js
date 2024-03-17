@@ -22,21 +22,12 @@ import { useNavigate } from "react-router-dom"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { loadStripe } from "@stripe/stripe-js";
 
-const Cardsdata = [
-  {
-      id: 1,
-      dish: "£20 MINIMUM ORDER ",
-      imgdata:"https://firebasestorage.googleapis.com/v0/b/zapp-laundry.appspot.com/o/images%2F33056.jpg?alt=media&token=f629b60d-e136-48bb-ad02-cb08d40b8768&_gl=1*1n7omxx*_ga*Mzc1MTk5ODM1LjE2OTA3MzcxMDA.*_ga_CW55HF8NVT*MTY5NjA3MjM0MS40My4xLjE2OTYwNzI0MDUuNjAuMC4w",
-      // "https://b.zmtcdn.com/data/pictures/9/18857339/8f53919f1175c08cf0f0371b73704f9b_o2_featured_v2.jpg?output-format=webp",
-      address: "United Kingdom",
-      delimg: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png?output-format=webp",
-      somedata: " 1175 + order placed from here recently",
-      price: 20,
-      rating: "3.8",
-      arrimg: "https://b.zmtcdn.com/data/o2_assets/4bf016f32f05d26242cea342f30d47a31595763089.png?output-format=webp",
-      qnty:1
-  },
-]
+const Cardsdata = {
+    "dish": "£20 MINIMUM ORDER ",
+    "price": 20,
+    "qnty": 1
+    }
+
 
 const Icon = () => {
   return (
@@ -154,46 +145,22 @@ function  getWordsDay(day){
 return "Sunday"
 }
 
-const makepayment = async()=>{
-  const stripe = await loadStripe('pk_test_51MWkDkHZu7AzozneLNgCIXDVxz7QiTYYmoQHsB3Tc3OG62HJLrygS9NRDowbYoP10NKErGU3aviqYt9J7HNwuAP300YPB04v2z');
 
-  const body = {
-      products:Cardsdata
-  }
-  const headers = {
-      "Content-Type":"application/json"
-  }
-  const response = await fetch("http://localhost:7000/api/create-checkout-session",{
-      method:"POST",
-      headers:headers,
-      body:JSON.stringify(body)
-  });
 
-  const session = await response.json();
-  console.log("gfdfghxghfgfh 234 "+session)
-  const result = stripe.redirectToCheckout({
-      sessionId:session.id
-  });
-  
-  if(result.error){
-      console.log(result.error);
-  }
-
-}
   const handleChange = (event) => {
     if(!showmenu){
       event.stopPropagation();
       setShowmenu(true);
     }
-   
+   };
 
-  };
   const handleChange1part = (event) => {
   
       event.stopPropagation();
       setShowmenu(!showmenu);
  
   };
+
   const handleChange2 = (event) => {
     if(!showmenu2){
     event.stopPropagation();
@@ -220,18 +187,22 @@ const makepayment = async()=>{
     }
     return "Collection Slot";
   };
+
   const onItemClick = (option) => {
     setSelectedValue(option);
   };
+
   const onItemClick3 = (option) => {
     setSelectedValue3(option);
   };
+
   const isSelected3= (option) => {
     if (!selectedValue3) {
       return false;
     }
     return option.slot === selectedValue3.slot
   };
+
   const isSelected = (option) => {
     if (!selectedValue) {
       return false;
@@ -245,6 +216,7 @@ const makepayment = async()=>{
     }
     return option.date === selectedValue2.date
   };
+
   const isSelected5 = (option) => {
     if (!selectedValue22) {
       return false;
@@ -255,12 +227,14 @@ const makepayment = async()=>{
   const onItemClick2 = (option) => {
     setSelectedValue2(option);
   };
+
   const onItemClick22 = (option) => {
     setSelectedValue22(option);
   };
 
 function placeorderFun(e){
-  var s=selectedValue.date+""
+    e.preventDefault();
+var s=selectedValue.date+""
 
 var startdate2 = new Date(s);
 const str = selectedValue2.date+""
@@ -284,11 +258,42 @@ if(user==null){
   navigate("/register");
 }
 else{
- console.log("taseer "+user.uid)
- makepayment()
+ // navigate("/checkout");
+   makepayment();
+}
+}
+async function makepayment(){
+
+  const stripe = await loadStripe('pk_test_51MWkDkHZu7AzozneLNgCIXDVxz7QiTYYmoQHsB3Tc3OG62HJLrygS9NRDowbYoP10NKErGU3aviqYt9J7HNwuAP300YPB04v2z');
+
+
+  const body = {
+    "dish": "£20 MINIMUM ORDER ",
+    "price": 20,
+    "qnty": 1
+  }
+   const headers = {
+      'Content-Type':'application/json'
+  }
+  const response = await fetch('https://i19bgp1fzq.us.aircode.run/zappnewsession',{
+     method:'POST',
+    headers:headers,
+    body:JSON.stringify(body)
+  });
+    const session = await response.json();
+   // console.log("gfdfghxghfgfh 235 "+session)
+    console.log("gfdfghxghfgfh 23533  "+session.id)
+    const result = await stripe.redirectToCheckout({
+        sessionId:session.id
+    });
+    
+    if(result.error){
+        console.log(result.error);
+        console.log(result);
+    }
 
 }
-}
+
 function handlefulladdress(e){
  // console.log("youre "+e.target.value)
 setFuladdress(e.target.value)

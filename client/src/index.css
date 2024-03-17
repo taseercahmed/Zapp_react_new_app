@@ -961,8 +961,8 @@ h4.product-price {
 }
 .lilist {
   display: inline-block;
-  width: 50%;
-  margin: 20px;
+  width: 80%;
+  
   padding-left: 30px;
   padding-right: 30px;
 }
@@ -1045,7 +1045,7 @@ h4.product-price {
 }
 .donebtn{
   text-align: right;
-  margin: 30px;
+  margin: 10px;
   color: #277e85;
   font-size: larger;
 }

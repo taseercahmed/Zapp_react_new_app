@@ -93,29 +93,34 @@ export default function RegisterUser(){
   setnumber(e.target.value)
  }
 
-  const makepayment = async()=>{
-    const stripe = await loadStripe('pk_test_51MWkDkHZu7AzozneLNgCIXDVxz7QiTYYmoQHsB3Tc3OG62HJLrygS9NRDowbYoP10NKErGU3aviqYt9J7HNwuAP300YPB04v2z');
+ async function makepayment(){
 
-    const body = {
-        products:Cardsdata
-    }
-    const headers = {
-        "Content-Type":"application/json"
-    }
-    const response = await fetch("http://localhost:7000/api/create-checkout-session",{
-        method:"POST",
-        headers:headers,
-        body:JSON.stringify(body)
-    });
+  const stripe = await loadStripe('pk_test_51MWkDkHZu7AzozneLNgCIXDVxz7QiTYYmoQHsB3Tc3OG62HJLrygS9NRDowbYoP10NKErGU3aviqYt9J7HNwuAP300YPB04v2z');
+
+
+  const body = {
+    "dish": "£20 MINIMUM ORDER ",
+    "price": 20,
+    "qnty": 1
+  }
+   const headers = {
+      'Content-Type':'application/json'
+  }
+  const response = await fetch('https://i19bgp1fzq.us.aircode.run/zappnewsession',{
+     method:'POST',
+    headers:headers,
+    body:JSON.stringify(body)
+  });
 
     const session = await response.json();
-    console.log("gfdfghxghfgfh 234 "+session)
-    const result = stripe.redirectToCheckout({
+    console.log("gfdfghxghfgfh 23533  "+session.id)
+    const result = await stripe.redirectToCheckout({
         sessionId:session.id
     });
     
     if(result.error){
         console.log(result.error);
+        console.log(result);
     }
 
 }

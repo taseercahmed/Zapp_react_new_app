@@ -11,7 +11,10 @@ import ServiceDetail from './pages/ServiceDetail';
 import Login from './pages/login';
 import RegisterUser from './pages/RegisterUser';
 import Success from './pages/Success';
+import Logout from './pages/Logout';
+// import Checkout from './pages/Checkout';
 
+//zapplaundry@gmail.com  Mustafa2023
 function App() {
   return (
     <BrowserRouter className="App">
@@ -24,8 +27,11 @@ function App() {
        <Route path='/services' element={<Services></Services>}></Route>
        <Route path='/ServiceDetail' element={<ServiceDetail></ServiceDetail>}></Route>
        <Route path='/login' element={<Login></Login>}></Route>
+       <Route path='/logout' element={<Logout></Logout>}></Route>
        <Route path='/success' element={<Success></Success>}></Route>
        <Route path='/register' element={<RegisterUser></RegisterUser>}></Route>
+       {/* <Route path="checkout" element={<Checkout/>} /> */}
+        {/* <Route path="success" element={<Success />} /> */}
       </Routes>
    </BrowserRouter>
   );

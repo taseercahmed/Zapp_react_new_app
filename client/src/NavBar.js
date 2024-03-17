@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import { Link } from "react-router-dom";
 import DrawerComponent from "./components/DrawerComponent";
+import {Db,Auth} from "./firebase/Firebase"
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -41,6 +42,7 @@ function Navbar() {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  let user = Auth.currentUser;
   return (
     <AppBar position="static" color='primary'  >
       <CssBaseline />
@@ -64,9 +66,16 @@ function Navbar() {
             <Link to="/areas" className={classes.link}>
               Areas
             </Link>
-            <Link to="/login" className={classes.link}>
+            {
+              user==null?
+              <Link to="/login" className={classes.link}>
               Login
-            </Link>
+            </Link>:
+            <Link to="/logout" className={classes.link}>
+            Logout
+          </Link>
+            }
+            
           </div>
         )
         }
