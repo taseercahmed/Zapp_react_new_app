@@ -1,14 +1,14 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
-const express = require("express");
+const app = require("express");
 // const cors = require("cors");
 const stripe = require("stripe")('sk_test_51MWkDkHZu7AzozneQoxRtoimvzhwc1ufOXM3Dx3Bew8fGOVpXaqJMnypsH3lGT1EaWfD6K2mn2U8BklBFhSa77R400cmtLC5NR');
 
-admin.initializeApp();
-const app = express();
+//admin.initializeApp();
+//const app = express();
 
-app.use(express.json());
+//app.use(express.json());
 
 app.post("/create-checkout-session", async (req, res) => {
     const { products } = req.body;
@@ -41,7 +41,7 @@ app.post("/create-checkout-session", async (req, res) => {
     }
 });
 
-exports.createCheckoutSession = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app);
 
 
 
@@ -58,8 +58,8 @@ exports.createCheckoutSession = functions.https.onRequest(app);
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+//const {onRequest} = require("firebase-functions/v2/https");
+//const logger = require("firebase-functions/logger");
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
@@ -69,4 +69,42 @@ const logger = require("firebase-functions/logger");
 //   response.send("Hello from Firebase!");
 // });
 
+// const functions   = require('firebase-functions');
+// const stripe_test = require('stripe')(functions.config().stripe.test_sk);
+// const stripe_live = require('stripe')(functions.config().stripe.live_sk);
+// const app = require('express')();
+
+// app.post('/create-test-checkout-session', async (req, res) => {
+//   const session = await stripe_test.checkout.sessions.create({
+//     line_items:  [
+//       {
+//         price:functions.config().stripe.test_price,
+//         quantity: 1,
+//       },
+//     ],
+//     mode:'payment',
+//     success_url: `https://stripe-node.edlin.app/`,
+//     cancel_url:  `https://stripe-node.edlin.app/`,
+//   });
+
+//   res.redirect(303, session.url);
+// });
+
+// app.post('/create-live-checkout-session', async (req, res) => {
+//   const session = await stripe_live.checkout.sessions.create({
+//     line_items:  [
+//       {
+//         price:    functions.config().stripe.live_price,
+//         quantity: 1,
+//       },
+//     ],
+//     mode:'payment',
+//     success_url: `https://stripe-node.edlin.app/`,
+//     cancel_url:  `https://stripe-node.edlin.app/`,
+//   });
+
+//   res.redirect(303, session.url);
+// });
+
+// exports.app = functions.https.onRequest(app);
 
